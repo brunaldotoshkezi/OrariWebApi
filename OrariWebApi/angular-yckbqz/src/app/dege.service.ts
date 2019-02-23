@@ -1,5 +1,5 @@
 import{Injectable} from '@angular/core';
-import{IDege} from './dege';
+import{IDege, IOrari} from './dege';
 import{HttpClient, HttpErrorResponse} from '@angular/common/http';
 import{Observable} from 'rxjs';
 import{catchError, tap} from 'rxjs/operators';
@@ -9,24 +9,27 @@ import{catchError, tap} from 'rxjs/operators';
 })
 
 export class DegeService{
-  private degetUrl = "www.service.com/deget";
-
+  private degetUrl = "http://localhost:59179/api/Degets";
+  private lendetUrl = "http://localhost:59179/api/Oraris";
   constructor(private http: HttpClient){}
 
   getDeget(): Observable<IDege[]>{
     return this.http.get<IDege[]>(this.degetUrl).pipe(tap(data => console.log('All : ' + JSON.stringify(data))));
   }
+  getLendet(dega:string): Observable<IOrari[]>{
+    return this.http.get<IOrari[]>(this.lendetUrl+"?dega="+dega).pipe(tap(data => console.log('All : ' + JSON.stringify(data))));
+   }
 
-  // private handleError(err: HttpErrorResponse){
-  //   let errorMessage = '';
-  //   if(err.error instanceof ErrorEvent){
-  //     errorMessage = 'error ${err.error.message}';
-  //   } else {
-  //     errorMessage = 'server ${err.status}, ${err.message}';
-  //   }
-  //   console.error(errorMessage);
-  //   return throwError(errorMessage);
-  // }
+  private handleError(err: HttpErrorResponse){
+    let errorMessage = '';
+    if(err.error instanceof ErrorEvent){
+      errorMessage = 'error ${err.error.message}';
+    } else {
+      errorMessage = 'server ${err.status}, ${err.message}';
+    }
+    console.error(errorMessage);
+    //return throwError(errorMessage);
+  }
 }
 
 //[

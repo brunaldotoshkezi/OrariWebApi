@@ -9,9 +9,10 @@ using System.Net.Http;
 using System.Web.Http;
 using System.Web.Http.Description;
 using OrariWebApi.Models;
-
+using System.Web.Http.Cors;
 namespace OrariWebApi.Controllers
 {
+    [EnableCors(origins: "*", headers: "*", methods: "*")]
     public class DegetsController : ApiController
     {
         private ORARI_DEMOEntities db = new ORARI_DEMOEntities();

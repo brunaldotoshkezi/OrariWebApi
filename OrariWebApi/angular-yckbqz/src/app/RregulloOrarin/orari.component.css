@@ -9,3 +9,12 @@
 .tg .tg-zorb{font-weight:bold;background-color:#38fff8;text-align:center}
 .tg .tg-ozja{background-color:#ecf4ff;text-align:center;vertical-align:top}
 .tg .tg-0qe0{background-color:#ecf4ff;text-align:left;vertical-align:top}
+.example-form {
+    min-width: 150px;
+    max-width: 500px;
+    width: 100%;
+  }
+  
+  .example-full-width {
+    width: 100%;
+  }

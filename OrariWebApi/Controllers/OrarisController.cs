@@ -7,11 +7,13 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using System.Web.Http.Cors;
 using System.Web.Http.Description;
 using OrariWebApi.Models;
 
 namespace OrariWebApi.Controllers
 {
+    [EnableCors(origins: "*", headers: "*", methods: "*")]
     public class OrarisController : ApiController
     {
         private ORARI_DEMOEntities db = new ORARI_DEMOEntities();
@@ -24,9 +26,9 @@ namespace OrariWebApi.Controllers
 
         // GET: api/Oraris/5
         [ResponseType(typeof(Orari))]
-        public IHttpActionResult GetOrari(int id)
+        public IHttpActionResult GetOrari(string dega)
         {
-            Orari orari = db.Oraris.Find(id);
+            Orari orari = db.Oraris.Where(x=>x.Dega==dega).FirstOrDefault();
             if (orari == null)
             {
                 return NotFound();

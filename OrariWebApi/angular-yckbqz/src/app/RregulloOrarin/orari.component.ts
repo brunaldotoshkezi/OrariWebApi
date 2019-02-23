@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { IDege } from '../dege';
+import { IDege, IOrari } from '../dege';
 import { DegeService } from '../dege.service';
-
-
+import { FormControl } from '@angular/forms';
+import {Observable} from 'rxjs';
+import {map, startWith} from 'rxjs/operators';
 @Component({
   selector: 'orari',
   templateUrl: './orari.component.html',
@@ -11,33 +12,50 @@ import { DegeService } from '../dege.service';
 
 export class OrariComponent implements OnInit {
   deget: IDege[];
+  oraret: IOrari[];
   errorMessage: string;
   _degetListFilter: string;
   filteredDege: IDege[];
+  myControl = new FormControl();
+  filteredOptions: Observable<any[]>;
+  dega: string;
 
-  // get degetListFilter(): string {
-  //   return this._degetListFilter
-  // }
 
-  // set degetListFilter(value: string) {
-  //   this._degetListFilter = value;
-  //   this.filteredDege = this.degetListFilter ? this.performFilter(this.degetListFilter) : this.deget;
-  // }
-
+  constructor(public degeService: DegeService) {}
   ngOnInit(): void {
-   this.degeService.getDeget().subscribe(
+
+  // this.deget = this.degeService.getDeget(); 
+    this.degeService.getDeget().subscribe(
      deget =>{
        this.deget = deget;
        this.filteredDege = this.deget;
+       this.filteredOptions = this.myControl.valueChanges
+     .pipe(
+       startWith(''),
+       map(value => this.performFilter(value))
+     );
    },
      error => this.errorMessage = <any>error);
-  //  this.deget = this.degeService.getDeget();
+     
   }
   
-  // performFilter(filterBy: string): IDege[] {
-  //   filterBy = filterBy.toLocaleLowerCase();
-  //   return this.deget.filter((dege: IDege) => dege.Id.toLocaleLowerCase().indexOf(filterBy) !== -1)
-  // }
+  performFilter(filterBy: string): IDege[] {
+    debugger;
+    filterBy = filterBy.toLocaleLowerCase();
+    var c =  this.deget.filter((dege: IDege) => dege.Dega.toLocaleLowerCase().indexOf(filterBy) !== -1);
+    if(c.length>0){
+      this.dega = c[0].Dega;
+    }else{
+      this.dega="";
+    }
+    return c;
+  }
 
-  constructor(private degeService: DegeService) {}
+  onClickDergo()
+  {
+    this.degeService.getLendet(this.dega).subscribe(
+       oraret =>{
+      this.oraret = oraret;
+    });
+  }
 }
