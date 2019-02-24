@@ -1,9 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { IDege, IOrari } from '../dege';
 import { DegeService } from '../dege.service';
 import { FormControl } from '@angular/forms';
 import {Observable} from 'rxjs';
 import {map, startWith} from 'rxjs/operators';
+import { SelectionModel } from '@angular/cdk/collections';
+import { MatListOption, MatSelectionList } from '@angular/material';
 @Component({
   selector: 'orari',
   templateUrl: './orari.component.html',
@@ -20,10 +22,16 @@ export class OrariComponent implements OnInit {
   filteredOptions: Observable<any[]>;
   dega: string;
 
-
+  @ViewChild(MatSelectionList) selectionList: MatSelectionList;
   constructor(public degeService: DegeService) {}
+
+  current_selected: string;
+
+ 
+
   ngOnInit(): void {
 
+    this.selectionList.selectedOptions = new SelectionModel<MatListOption>(false);
   // this.deget = this.degeService.getDeget(); 
     this.degeService.getDeget().subscribe(
      deget =>{
@@ -37,6 +45,11 @@ export class OrariComponent implements OnInit {
    },
      error => this.errorMessage = <any>error);
      
+  }
+
+  onSelection(e, v){
+    debugger
+     this.current_selected = e.option.value;
   }
   
   performFilter(filterBy: string): IDege[] {
@@ -55,6 +68,7 @@ export class OrariComponent implements OnInit {
   {
     this.degeService.getLendet(this.dega).subscribe(
        oraret =>{
+         debugger;
       this.oraret = oraret;
     });
   }

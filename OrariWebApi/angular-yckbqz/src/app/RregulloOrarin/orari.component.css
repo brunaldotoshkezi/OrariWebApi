@@ -18,3 +18,8 @@
   .example-full-width {
     width: 100%;
   }
+  mat-selection-list.mat-selection-list.mat-list-base{
+    width: 45%;
+    height: 250px;
+    overflow-y: scroll;
+  }

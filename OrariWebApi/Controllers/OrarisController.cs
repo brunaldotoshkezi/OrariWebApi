@@ -25,16 +25,45 @@ namespace OrariWebApi.Controllers
         }
 
         // GET: api/Oraris/5
-        [ResponseType(typeof(Orari))]
-        public IHttpActionResult GetOrari(string dega)
+        [ResponseType(typeof(DisponibelDTO))]
+        public IHttpActionResult GetDisponibel(string tipi, int OraId, int KlasaId, int DitaId)
         {
-            Orari orari = db.Oraris.Where(x=>x.Dega==dega).FirstOrDefault();
-            if (orari == null)
+            var res = from d in db.Disponibels
+                                             join o in db.Orets on d.OraId equals o.Id
+                                             join k in db.Klasats on d.KlasaId equals k.Id
+                                             join di in db.Ditets on d.DitaId equals di.Id
+                                             where o.Id == OraId && k.Id == KlasaId && di.Id == DitaId
+                                             select new DisponibelDTO
+                                             {
+                                                 DitaId = d.DitaId,
+                                                 OraId = d.OraId,
+                                                 KlasaId = d.KlasaId,
+                                                 Perdorur = d.Perdorur,
+                                                 Tipi = tipi,
+                                                 Dita = di.Dita,
+                                                 Klasa = k.KlasaNew,
+                                                 Ora = o.Ora             
+                                             };
+            List<DisponibelDTO> disponibel = res.ToList();
+            if (disponibel == null)
             {
                 return NotFound();
             }
 
-            return Ok(orari);
+            return Ok(disponibel);
+        }
+
+        // GET: api/Oraris/5
+        [ResponseType(typeof(Orari))]
+        public IHttpActionResult GetOrari(string dega)
+        {
+            List<Orari> oraret = db.Oraris.Where(x=>x.Dega==dega).ToList();
+            if (oraret == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(oraret);
         }
 
         // PUT: api/Oraris/5
