@@ -34,7 +34,7 @@
   </mat-list-option>
 </mat-selection-list> -->
 <br>
-<mat-form-field *ngIf="oraret!=null">
+<mat-form-field *ngIf="oraret!=null" style="width:32%">
   <mat-select placeholder="Lendet e Pavendosura:" (selectionChange)="onSelect($event)" >
     <mat-option *ngFor="let orar of oraret" [value]="orar">
       {{orar.Dega}}/ {{orar.Lenda}}/ {{orar.Viti}}/ {{orar.Paraleli}}/ {{orar.Tipi}}/ {{orar.Pedagog}}
@@ -42,7 +42,7 @@
   </mat-select>
 </mat-form-field>
 <br>
-<mat-form-field *ngIf="disponibel!=null">
+<mat-form-field *ngIf="disponibel!=null" style="width:32%">
   <mat-select placeholder="Disponibel:">
     <mat-option *ngFor="let dispo of disponibel" [value]="dispo">
       {{dispo.Tipi}}/ {{dispo.Dita}}/ {{dispo.Klasa}}/ {{dispo.Ora}}
@@ -50,6 +50,7 @@
   </mat-select>
 </mat-form-field>
 
+<button mat-button color="primary" (click)="onClickShto()">Shto</button>
 <table class="tg"style="table-layout: fixed;width: 1000px">
   <tr>
     <th class="tg-drd7" colspan="3">E Hene</th>
