@@ -27,13 +27,28 @@
 </form>
 
 <button mat-button color="primary" (click)="onClickDergo()">Dergo</button>
-<p>Lendet e Pavendosura: </p>
+<!-- <p>Lendet e Pavendosura: </p>
 <mat-selection-list #shoes (selectionChange)="onSelection($event, shoes.selectedOptions)">
   <mat-list-option *ngFor="let orar of oraret">
     {{orar.Dega}}/ {{orar.Lenda}}/ {{orar.Viti}}/ {{orar.Paraleli}}/ {{orar.Tipi}}/ {{orar.Pedagog}}
   </mat-list-option>
-</mat-selection-list>
-
+</mat-selection-list> -->
+<br>
+<mat-form-field *ngIf="oraret!=null">
+  <mat-select placeholder="Lendet e Pavendosura:" (selectionChange)="onSelect($event)" >
+    <mat-option *ngFor="let orar of oraret" [value]="orar">
+      {{orar.Dega}}/ {{orar.Lenda}}/ {{orar.Viti}}/ {{orar.Paraleli}}/ {{orar.Tipi}}/ {{orar.Pedagog}}
+    </mat-option>
+  </mat-select>
+</mat-form-field>
+<br>
+<mat-form-field *ngIf="disponibel!=null">
+  <mat-select placeholder="Disponibel:">
+    <mat-option *ngFor="let dispo of disponibel" [value]="dispo">
+      {{dispo.Tipi}}/ {{dispo.Dita}}/ {{dispo.Klasa}}/ {{dispo.Ora}}
+    </mat-option>
+  </mat-select>
+</mat-form-field>
 
 <table class="tg"style="table-layout: fixed;width: 1000px">
   <tr>

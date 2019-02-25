@@ -1,10 +1,9 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { IDege, IOrari } from '../dege';
+import { IDege, IOrari, IDisponibel } from '../dege';
 import { DegeService } from '../dege.service';
 import { FormControl } from '@angular/forms';
 import {Observable} from 'rxjs';
-import {map, startWith} from 'rxjs/operators';
-import { SelectionModel } from '@angular/cdk/collections';
+import {map, startWith} from 'rxjs/operators';              //api
 import { MatListOption, MatSelectionList } from '@angular/material';
 @Component({
   selector: 'orari',
@@ -13,8 +12,10 @@ import { MatListOption, MatSelectionList } from '@angular/material';
 })
 
 export class OrariComponent implements OnInit {
-  deget: IDege[];
-  oraret: IOrari[];
+  deget: IDege[]=null;
+  oraret: IOrari[] =null;
+  
+  disponibel: IDisponibel[]=null;
   errorMessage: string;
   _degetListFilter: string;
   filteredDege: IDege[];
@@ -31,7 +32,7 @@ export class OrariComponent implements OnInit {
 
   ngOnInit(): void {
 
-    this.selectionList.selectedOptions = new SelectionModel<MatListOption>(false);
+   // this.selectionList.selectedOptions = new SelectionModel<MatListOption>(false);
   // this.deget = this.degeService.getDeget(); 
     this.degeService.getDeget().subscribe(
      deget =>{
@@ -51,7 +52,14 @@ export class OrariComponent implements OnInit {
     debugger
      this.current_selected = e.option.value;
   }
-  
+  onSelect(e){
+    debugger;
+    this.degeService.getLendetDisponibel(e.value.Tipi,e.value.Klasa,e.value.Ora,e.value.Dita).subscribe(
+      disponibel =>{
+        debugger;
+     this.disponibel = disponibel;
+   });
+  }
   performFilter(filterBy: string): IDege[] {
     debugger;
     filterBy = filterBy.toLocaleLowerCase();

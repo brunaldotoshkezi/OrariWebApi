@@ -1,5 +1,5 @@
 import{Injectable} from '@angular/core';
-import{IDege, IOrari} from './dege';
+import{IDege, IOrari, IDisponibel} from './dege';
 import{HttpClient, HttpErrorResponse} from '@angular/common/http';
 import{Observable} from 'rxjs';
 import{catchError, tap} from 'rxjs/operators';
@@ -18,6 +18,10 @@ export class DegeService{
   }
   getLendet(dega:string): Observable<IOrari[]>{
     return this.http.get<IOrari[]>(this.lendetUrl+"?dega="+dega).pipe(tap(data => console.log('All : ' + JSON.stringify(data))));
+   }
+
+   getLendetDisponibel(tipi:string, klasaId:number,oraId:number,ditaId:number): Observable<IDisponibel[]>{
+    return this.http.get<IDisponibel[]>(this.lendetUrl+"?tipi="+tipi+"&OraId="+oraId+"&KlasaId="+klasaId+"&DitaId="+ditaId).pipe(tap(data => console.log('All : ' + JSON.stringify(data))));
    }
 
   private handleError(err: HttpErrorResponse){

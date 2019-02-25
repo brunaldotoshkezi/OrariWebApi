@@ -18,3 +18,15 @@ export interface IOrari
  Final:boolean;
 
 }
+
+export interface IDisponibel
+{ 
+ DitaId : number;
+ OraId : number;
+ KlasaId : number;
+ Perdorur : boolean;
+ Tipi : string;
+ Dita : string;
+ Klasa : string;
+ Ora : string;
+}
