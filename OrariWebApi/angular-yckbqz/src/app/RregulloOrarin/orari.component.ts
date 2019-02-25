@@ -60,6 +60,16 @@ export class OrariComponent implements OnInit {
      this.disponibel = disponibel;
    });
   }
+
+  onSelectDisponibel(e){
+    debugger;
+    this.degeService.getLendetDisponibel(e.value.Tipi,e.value.Klasa,e.value.Ora,e.value.Dita).subscribe(
+      disponibel =>{
+        debugger;
+     this.disponibel = disponibel;
+   });
+  }
+
   performFilter(filterBy: string): IDege[] {
     debugger;
     filterBy = filterBy.toLocaleLowerCase();

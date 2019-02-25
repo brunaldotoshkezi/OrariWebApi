@@ -101,6 +101,33 @@ namespace OrariWebApi.Controllers
             return StatusCode(HttpStatusCode.NoContent);
         }
 
+        [ResponseType(typeof(void))]
+        public IHttpActionResult PutDisponibel(DisponibelDTO disp)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            Disponibel disponibel = db.Disponibels.Where(x => x.KlasaId == disp.KlasaId && x.OraId == disp.OraId && x.DitaId == disp.DitaId).First();
+            disponibel.Perdorur = true;
+            db.Entry(disponibel).State = EntityState.Modified;
+
+
+            try
+            {
+                db.SaveChanges();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                
+                    return NotFound();
+               
+            }
+
+            return StatusCode(HttpStatusCode.NoContent);
+        }
+
         // POST: api/Oraris
         [ResponseType(typeof(Orari))]
         public IHttpActionResult PostOrari(Orari orari)
