@@ -24,6 +24,16 @@ export class DegeService{
     return this.http.get<IDisponibel[]>(this.lendetUrl+"?tipi="+tipi+"&OraId="+oraId+"&KlasaId="+klasaId+"&DitaId="+ditaId).pipe(tap(data => console.log('All : ' + JSON.stringify(data))));
    }
 
+   updateDisponibel(disponibel:IDisponibel) {
+    let headers = new Headers();
+    headers.append('Content-Type', 'application/json');
+  
+    let url = 'http://localhost:59179/api/Oraris';
+  
+    return this.http
+               .put(url, JSON.stringify(disponibel));
+  }
+
   private handleError(err: HttpErrorResponse){
     let errorMessage = '';
     if(err.error instanceof ErrorEvent){

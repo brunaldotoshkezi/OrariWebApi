@@ -22,6 +22,10 @@ export class OrariComponent implements OnInit {
   myControl = new FormControl();
   filteredOptions: Observable<any[]>;
   dega: string;
+  dita: string;
+  ora: string;
+  disponibelObject:IDisponibel;
+  description: string;
 
   @ViewChild(MatSelectionList) selectionList: MatSelectionList;
   constructor(public degeService: DegeService) {}
@@ -62,12 +66,7 @@ export class OrariComponent implements OnInit {
   }
 
   onSelectDisponibel(e){
-    debugger;
-    this.degeService.getLendetDisponibel(e.value.Tipi,e.value.Klasa,e.value.Ora,e.value.Dita).subscribe(
-      disponibel =>{
-        debugger;
-     this.disponibel = disponibel;
-   });
+    this.disponibelObject=e.value;
   }
 
   performFilter(filterBy: string): IDege[] {
@@ -89,5 +88,43 @@ export class OrariComponent implements OnInit {
          debugger;
       this.oraret = oraret;
     });
+  }
+
+  onClickShto(){
+    debugger;
+    this.degeService.updateDisponibel(this.disponibelObject);
+    this.dita = this.getWeekDay(this.disponibelObject.Dita);
+    this.ora = this.disponibelObject.Ora.substring(0,5);
+    this.description = this.disponibelObject.Tipi+","+this.disponibelObject.Dita+","+this.disponibelObject.Ora+","+this.disponibelObject.Klasa
+  }
+
+  getWeekDay(day:string){
+    debugger
+    let newday ="";
+    switch (day) {
+      case 'E Hënë':
+          newday = "H";
+          return newday;
+        break;
+      case 'E Martë':
+         newday = "MA";
+         return newday;
+      break;
+      case 'E Mërkurë':
+          newday = "ME";
+          return newday;
+        break;
+        case 'E Enjte':
+          newday ="E";
+          return newday;
+        break;
+        case 'E Premte':
+          newday = "P"
+          return newday;
+        break;
+      default:
+        console.log('day is '+day);
+        
+    }
   }
 }
